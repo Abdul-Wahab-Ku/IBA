@@ -1,2 +1,55 @@
-# IBA
-Assignment 1
+def main():
+
+
+    def mapp(My_Dict):
+        alpha = [chr(i) for i in range(97, 104)]
+        alpha = tuple(alpha)
+        alpha_1 = [chr(j) for j in range(97, 123) if j not in  [115,109,107]]
+        alpha_1 = tuple(alpha_1)
+
+        mapping = list(map(lambda b: "Mr. " + b if str(b).lower().startswith(alpha) else "Mrs. " + b,
+                           [My_Dict[x]['name'] for x in My_Dict]))
+
+        i = 0
+        for x in My_Dict:
+            My_Dict[x]['name'] = mapping[i]
+            i = i + 1
+            b = My_Dic[x]['amount_deposited']
+            from functools import reduce
+            red = reduce(lambda j, y: y + j, b)
+            My_Dic[x]['amount_deposited'] = red
+
+        age = list(map(lambda b: 2021 - b, [My_Dict[x]['age'] for x in My_Dict]))
+        k = 0
+        for x in My_Dict:
+            My_Dict[x].update({'year': age[k]})
+            k = k + 1
+        filtering_person = list(filter(lambda l:  My_Dict[l]['name'].split(' ')[1][0].lower().startswith(alpha_1),
+                                   My_Dict))
+        for key in list(My_Dict.keys()):
+            if key not in filtering_person:
+                del My_Dict[key]
+
+
+
+        print(My_Dict)
+        import json
+        with open('assignment2.json', 'w') as file:
+            json.dump(My_Dict, file, indent=2, sort_keys=True)
+            print('Json file is created')
+
+    My_Dic = {
+        "person_1": {"name": 'Abdul Rafay', "age": 22, "Interests": ['football","cricket'],
+                     "amount_deposited": [24000, 26000]},
+
+        "person_2": {"name": 'Nancy James', "age": 23, "Interests": ['baseball’,’cricket'],
+                     "amount_deposited": [24000, 27000]},
+
+        "person_3": {"name": 'Selena Gomez', 'age': 26, "Interests": ['baseball', 'table tennis'],
+                     "amount_deposited": [24000, 28000]}
+            }
+
+    mapp(My_Dic)
+
+if __name__ == '__main__':
+    main()
