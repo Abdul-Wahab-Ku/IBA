@@ -1,0 +1,54 @@
+def main():
+    def CSV(My_Dict):
+        alpha = [chr(i) for i in range(97, 104)]
+        alpha = tuple(alpha)
+        alpha_1 = [chr(j) for j in range(97, 123) if j not in  [115,109,107]]
+        alpha_1 = tuple(alpha_1)
+        mapping = list(map(lambda b: "Mr. " + b if str(b).lower().startswith(alpha) else "Mrs. " + b, [My_Dict[x]['name'] for x in My_Dict]))
+        age = list(map(lambda b: 2021 - b, [My_Dict[x]['age'] for x in My_Dict]))
+        from functools import reduce
+        i = 0
+        for x in My_Dict:
+            My_Dict[x]['name'] = mapping[i]
+            My_Dict[x].update({'year': age[i]})
+            b = My_Dict[x]['amount_deposited']
+            ammount_total = reduce(lambda j, y: y + j, b)
+            My_Dict[x]['amount_deposited'] = ammount_total
+            i = i + 1
+        filtering_person = list(filter(lambda l:  My_Dict[l]['name'].split(' ')[1][0].lower().startswith(alpha_1),My_Dict))
+        for key in list(My_Dict.keys()):
+            if key not in filtering_person:
+                del My_Dict[key]
+        r1 = [My_Dict[x]['name'] for x in My_Dict]
+        r2 = [My_Dict[x]['age'] for x in My_Dict]
+        r3 = [My_Dict[x]['Interests'][0] for x in My_Dict]
+        r4 = [My_Dict[x]['amount_deposited'] for x in My_Dict]
+        r5 = [My_Dict[x]['year'] for x in My_Dict]
+        data = [r1, r2, r3, r4,r5]
+        print(My_Dict)
+        
+        import json
+        import csv 
+        from itertools import zip_longest
+        with open('assignment2.json', 'w') as file:
+            json.dump(My_Dict, file, indent=2, sort_keys=True)
+            print('Json file is created')
+        export_data = zip_longest(*data, fillvalue = '')
+        with open('Assignment_3CSV.csv', 'w', encoding="utf-8'", newline='') as file:
+            write = csv.writer(file)
+            write.writerow(("Name", "Age","Interests", "Amount Deposited","Year"))
+            write.writerows(export_data)
+            print('CSV file is created')
+    My_Dict = {
+        "person_1": {"name": 'Abdul Wahab', "age": 22, "Interests": ['football","cricket'],
+                     "amount_deposited": [24000, 26000]},
+
+        "person_2": {"name": 'Nancy James', "age": 23, "Interests": ['baseball’,’cricket'],
+                     "amount_deposited": [24000, 27000]},
+
+        "person_3": {"name": 'Selena Gomez', 'age': 26, "Interests": ['baseball', 'table tennis'],
+                     "amount_deposited": [24000, 28000]}
+            }
+    CSV(My_Dict)
+if __name__ == '__main__':
+    main()
