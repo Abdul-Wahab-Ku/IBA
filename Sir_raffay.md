@@ -1,2 +1,0 @@
-# IBA
-Assignment 1
